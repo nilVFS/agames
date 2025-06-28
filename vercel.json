@@ -1,0 +1,10 @@
+{
+  "rewrites": [
+    { "source": "/login", "destination": "/index.html" },
+    { "source": "/register", "destination": "/index.html" },
+    { "source": "/games", "destination": "/index.html" },
+    { "source": "/games/:id", "destination": "/index.html" },
+    { "source": "/debts", "destination": "/index.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
