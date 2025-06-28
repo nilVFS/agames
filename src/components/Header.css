@@ -1,0 +1,125 @@
+/* src/components/Header/Header.css */
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-left h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.header-left h1 a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logout-button,
+.login-link {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #333;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.logout-button:hover,
+.login-link:hover {
+  color: #0077ff;
+}
+
+.nav-menu {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  transition: color 0.2s ease;
+}
+
+.nav-links li a:hover {
+  color: #0077ff;
+}
+
+.menu-toggle {
+  display: none;
+}
+
+/* Мобильные стили */
+@media (max-width: 768px) {
+  .nav-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    flex-direction: column;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    border-radius: 8px;
+    padding: 1rem 0;
+  }
+
+  .nav-menu.active {
+    max-height: 300px;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    width: 100%;
+    padding: 0.5rem 0;
+  }
+
+  .nav-links li {
+    text-align: center;
+    padding: 0.5rem 0;
+  }
+
+  .menu-toggle {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+}
+
+.app-header img {
+  height: 36px;
+  aspect-ratio: 1;
+
+}
+

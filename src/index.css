@@ -1,0 +1,117 @@
+#root {
+  margin: 0 auto;
+}
+
+* {
+  list-style-type: none;
+}
+
+ul {
+  padding-inline-start: 0;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fafafa;
+  color: #333;
+}
+
+/* main */
+
+.app-main {
+  min-height: calc(100vh - 120px);
+}
+
+.app-footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #eee;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.save-button, .cancel-button {
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.save-button {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.cancel-button {
+  background-color: #ccc;
+}
+
+/* modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Это ключевой момент */
+  overflow-y: auto; /* Чтобы можно было скроллить при длинном содержимом */
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 600px; /* Максимальная ширина модалки */
+  overflow: hidden; /* Запретим прокрутку всей модалки */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-height: 90vh; /* Максимальная высота модалки — 90% от высоты экрана */
+}
+
+.search-results {
+  max-height: 300px; /* Максимальная высота списка */
+  overflow-y: auto;
+  margin-top: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.5rem;
+  background-color: #f9f9f9;
+}
+
+.search-results::-webkit-scrollbar {
+  width: 8px;
+}
+
+.search-results::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.search-result-item img {
+  width: 50px; /* Фиксированная ширина */
+  height: 50px; /* Фиксированная высота */
+  object-fit: cover; /* Изображение будет заполнять всю область, сохраняя пропорции */
+  border-radius: 4px;
+  margin-right: 1rem;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+  .modal-content {
+    max-width: 90%; /* На мобильных устройствах занимаем больше места */
+  }
+
+  .search-results {
+    max-height: 200px; /* Уменьшаем максимальную высоту на мобильных */
+  }
+}
+

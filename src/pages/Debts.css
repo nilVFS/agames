@@ -1,0 +1,89 @@
+/* debts.css */
+.debt-container {
+  padding: 2rem;
+  max-width: 800px;
+  margin: auto;
+}
+
+.add-button {
+  color: white;
+  border: none;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.debt-list {
+  list-style: none;
+  padding: 0;
+}
+
+.debt-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+  font-weight: bold;
+  font-size: 200%;
+}
+
+.debt-card:hover {
+  transform: translateY(-5px);
+}
+
+.debt-info {
+  flex-grow: 1;
+}
+
+.edit-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.delete-button {
+  background: none;
+  border: none;
+  color: red;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-left: 0.5rem;
+}
+
+.modal-input {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.save-button,
+.cancel-button {
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.save-button {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.cancel-button {
+  background-color: #ccc;
+}
