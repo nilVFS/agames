@@ -6,7 +6,6 @@ import Modal from "../components/Modal";
 import "./GameDetails.css";
 import useAuth from "../hooks/useAuth";
 import { Link } from "react-router-dom";
-import starIcon from "../assets/icons/star.png";
 
 export default function GameDetails() {
   const { id } = useParams();
@@ -18,7 +17,7 @@ export default function GameDetails() {
   const [noteData, setNoteData] = useState({ title: "", rating: "", content: "" });
   const [blockTitleInput, setBlockTitleInput] = useState("");
   const [editingBlockIndex, setEditingBlockIndex] = useState(-1);
-const [editingNoteIndex, setEditingNoteIndex] = useState(-1);
+  const [selectedTab, setSelectedTab] = useState(null);
 
   const statusLabels = {
     "in-progress": "в процессе",
@@ -30,13 +29,17 @@ const [editingNoteIndex, setEditingNoteIndex] = useState(-1);
 
   useEffect(() => {
     if (!id) return;
-
     const gameRef = doc(db, "games", id);
     const unsubscribe = onSnapshot(gameRef, (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.data();
         setGame(data);
-
+        // Устанавливаем первый блок как активный, если есть блоки
+        if (data.blocks && data.blocks.length > 0) {
+          setSelectedTab(0); // ← Выбираем первый блок по умолчанию
+        } else {
+          setSelectedTab(null);
+        }
         // Опционально: обновляем formData при загрузке игры
         setFormData({
           rating: data.rating || 0,
@@ -46,7 +49,6 @@ const [editingNoteIndex, setEditingNoteIndex] = useState(-1);
         });
       }
     });
-
     return () => unsubscribe();
   }, [id]);
 
@@ -105,8 +107,18 @@ const [editingNoteIndex, setEditingNoteIndex] = useState(-1);
 
   // Удаление заметки
   const handleDeleteNote = async (blockIndex, noteIndex) => {
-    const updatedBlocks = [...game.blocks];
-    updatedBlocks[blockIndex].notes.splice(noteIndex, 1);
+    // Проверяем, что данные существуют
+    if (!game.blocks || !game.blocks[blockIndex]?.notes) return;
+
+    const updatedBlocks = game.blocks.map((block, idx) => {
+      if (idx === blockIndex) {
+        return {
+          ...block,
+          notes: block.notes.filter((_, i) => i !== noteIndex)
+        };
+      }
+      return block;
+    });
 
     const gameRef = doc(db, "games", id);
     await updateDoc(gameRef, {
@@ -120,113 +132,129 @@ const [editingNoteIndex, setEditingNoteIndex] = useState(-1);
 
   return (
     <div className="game-details-container">
+  <div className="row-1">
+    <h2>{game.name}</h2>
+    <Link to="/games" className="back-link">← Назад к списку</Link>
+    {isAdmin && (
+      <>
+        <button onClick={() => setShowEditModal(true)} className="edit-button">Редактировать</button>
+        <button
+          onClick={() => {
+            setBlockTitleInput("");
+            setShowNoteModal(true);
+          }}
+          className="add-note-button"
+        >
+          Добавить блок
+        </button>
+      </>
+    )}
+  </div>
 
-      <div className="row-1">
-        <h2>{game.name}</h2>
-        <Link to="/games" className="back-link">← Назад к списку</Link>
-        {isAdmin && (
-          <>
-            <button onClick={() => setShowEditModal(true)} className="edit-button">Редактировать</button>
-            <button
-              onClick={() => {
-                setBlockTitleInput("");
-                setShowNoteModal(true);
-              }}
-              className="add-note-button"
-            >
-              Добавить блок
-            </button>
-          </>
-        )}
+  {/* Изображение + статистика */}
+  <div className="image-and-stats">
+    <div className="image-section">
+      <img src={game.image} alt={game.name} className="game-details-image" />
+    </div>
+    <div className="stats-section">
+      <h3>Статистика</h3>
+      <div className="game-stats">
+        <p><strong>Оценка:</strong> {game.rating ? `${game.rating}/10` : "Не указана"}</p>
+        <p><strong>Статус:</strong> {statusLabels[game.status]}</p>
+        <p><strong>Проведено времени:</strong> {game.hoursPlayed ? `${game.hoursPlayed} ч.` : "Не указано"}</p>
+        <p><strong>Дата последнего изменения:</strong> {new Date(game.lastUpdated).toLocaleDateString("ru-RU")}</p>
       </div>
+    </div>
+  </div>
 
-      <div className="row-2">
-        <div className="left-column">
-          <img src={game.image} alt={game.name} className="game-details-image" />
-          <div className="game-stats">
-            <p><strong>Оценка:</strong> {game.rating ? `${game.rating}/10` : "Не указана"}</p>
-            <p><strong>Статус:</strong> {statusLabels[game.status]}</p>
-            <p><strong>Проведено времени:</strong> {game.hoursPlayed ? `${game.hoursPlayed} ч.` : "Не указано"}</p>
-            <p><strong>Дата последнего изменения:</strong> {new Date(game.lastUpdated).toLocaleDateString("ru-RU")}</p>
-          </div>
+  {/* Отзыв */}
+  <div className="review-section">
+    <h3>Отзыв об игре</h3>
+    <div className="review-text">{game.review || "Нет отзыва"}</div>
+  </div>
+
+  {/* Кнопки-переключатели блоков */}
+  <div className="block-tabs">
+    {game.blocks?.map((block, index) => (
+      <button
+        key={index}
+        className={`tab-button ${selectedTab === index ? "active" : ""}`}
+        onClick={() => setSelectedTab(index)}
+      >
+        {block.title}
+      </button>
+    ))}
+  </div>
+
+  {/* Текущий блок с заметками */}
+  <div className="current-block">
+    {selectedTab !== null && game.blocks[selectedTab] ? (
+      <div className="block-item">
+        <div className="block-header">
+          <h3>{game.blocks[selectedTab].title}</h3>
+          {isAdmin && (
+            <div className="block-actions">
+              <button
+                className="edit-block-button"
+                onClick={() => {
+                  setBlockTitleInput(game.blocks[selectedTab].title);
+                  setEditingBlockIndex(selectedTab);
+                  setShowNoteModal(true);
+                }}
+              >
+                ✏️ Редактировать блок
+              </button>
+              <button
+                className="delete-block-button"
+                onClick={() => handleDeleteBlock(selectedTab)}
+              >
+                ❌ Удалить блок
+              </button>
+              <button
+                className="add-note-to-block"
+                onClick={() => openAddNoteModal(selectedTab)}
+              >
+                ➕ Добавить заметку
+              </button>
+            </div>
+          )}
         </div>
 
-        <div className="right-column">
-          <div className="review-section">
-            <h3>Отзыв об игре</h3>
-            <div className="review-text">{game.review || "Нет отзыва"}</div>
-          </div>
-
-          <div className="notes-section">
-            {game.blocks && game.blocks.length > 0 ? (
-              <ul className="blocks-list">
-                {game.blocks.map((block, blockIndex) => (
-                  <li key={blockIndex} className="block-item">
-                    <div className="block-header">
-                      <h3>{block.title}</h3>
-                      {isAdmin && (
-                        <div className="block-actions">
-                          <button
-                            className="edit-block-button"
-                            onClick={() => {
-                              setBlockTitleInput(block.title);
-                              setEditingBlockIndex(blockIndex);
-                              setShowNoteModal(true);
-                            }}
-                          >
-                            ✏️ Редактировать блок
-                          </button>
-                          <button
-                            className="delete-block-button"
-                            onClick={() => handleDeleteBlock(blockIndex)}
-                          >
-                            ❌ Удалить блок
-                          </button>
-                          <button
-                            className="add-note-to-block"
-                            onClick={() => openAddNoteModal(blockIndex)}
-                          >
-                            ➕ Добавить заметку
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                    <ul className="notes-grid">
-                      {block.notes && block.notes.length > 0 ? (
-                        <div className="notes-list-container">
-                          {block.notes.map((note, noteIndex) => (
-                            <li key={noteIndex} className="note-card">
-                              <h4>
-                                {note.title}
-                                {isAdmin && (
-                                  <button
-                                    className="delete-note-button"
-                                    onClick={() => handleDeleteNote(blockIndex, noteIndex)}
-                                  >
-                                    ❌ Удалить
-                                  </button>
-                                )}
-                              </h4>
-                              {note.rating !== null && (
-                                <p><strong>Рейтинг:</strong> {note.rating}/10</p>
-                              )}
-                              <p>{note.content}</p>
-                            </li>
-                          ))}
-                        </div>
-                      ) : (
-                        <p>Нет заметок в этом блоке</p>
-                      )}
-                    </ul>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>Нет блоков с заметками</p>
-            )}
-          </div>
-        </div>
+        {/* Здесь можно отобразить заметки или любую другую информацию о блоке */}
+        <ul className="notes-grid">
+          {game.blocks[selectedTab].notes && game.blocks[selectedTab].notes.length > 0 ? (
+            <div className="notes-list-container">
+              {game.blocks[selectedTab].notes.map((note, noteIndex) => (
+                <li key={noteIndex} className="note-card">
+                  <h4>
+                    {note.title}
+                    {isAdmin && (
+                      <button
+                        className="delete-note-button"
+                        onClick={() => handleDeleteNote(selectedTab, noteIndex)}
+                      >
+                        ❌ Удалить
+                      </button>
+                    )}
+                  </h4>
+                  {note.rating !== null && (
+                    <p><strong>Рейтинг:</strong> {note.rating}/10</p>
+                  )}
+                  <p>{note.content}</p>
+                </li>
+              ))}
+            </div>
+          ) : (
+            <p>Нет заметок в этом блоке</p>
+          )}
+        </ul>
       </div>
+    ) : (
+      <p></p>
+    )}
+  </div>
+
+  {/* Модалки ниже остаются без изменений */}
 
       {/* Модалка: редактирование игры */}
       {showEditModal && (
@@ -423,3 +451,5 @@ const [editingNoteIndex, setEditingNoteIndex] = useState(-1);
     </div>
   );
 }
+
+
