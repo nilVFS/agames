@@ -6,10 +6,6 @@
 
 .back-link {
   display: inline-block;
-  position: fixed;
-  left: 2rem;
-  bottom: 2rem;
-  margin-bottom: 1rem;
   color: #0077ff;
   text-decoration: none;
 }
@@ -216,20 +212,25 @@
   background-color: white;
   padding: 1rem;
   border-radius: 6px;
+  margin-bottom: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .note-card h4 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin: 0 0 0.5rem 0;
 }
 
 .note-card p {
-  margin: 0;
+  margin: 1rem 0;
   font-size: 0.95rem;
 }
 
 .edit-block-button,
 .delete-block-button,
+.delete-note-button,
 .add-note-to-block {
   background-color: #0077ff;
   color: white;
@@ -243,18 +244,68 @@
 .edit-block-button:hover {
   background-color: #005fcc;
 }
-.delete-block-button {
+.delete-block-button,
+.delete-note-button {
   background-color: #f44336;
 }
-.delete-block-button:hover {
+.delete-block-button:hover,
+.delete-note-button:hover {
   background-color: #d32f2f;
 }
 .add-note-to-block:hover {
   background-color: #4caf50;
 }
 
+
 .block-actions {
   display: flex;
   gap: 0.5rem;
 }
 
+.notes-list-container {
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.notes-list-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.notes-list-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.notes-list-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.notes-list-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.show-more-button {
+  margin-top: 0.5rem;
+  background-color: #0077ff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s ease;
+}
+
+.show-more-button:hover {
+  background-color: #005fcc;
+}
+
+
+.notes-list-container::-webkit-scrollbar {
+  display: none; /* Скрываем для Webkit-браузеров (Chrome, Safari) */
+}
+
+.notes-list-container {
+  -ms-overflow-style: none;  /* Для IE и Edge */
+  scrollbar-width: none;     /* Для Firefox */
+}

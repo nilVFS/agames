@@ -84,18 +84,18 @@ export default function Debts() {
                 <span>{debt.name}</span>
                 {isAdmin && (
                   <button
-                    className="delete-button"
-                    onClick={() => handleDeleteDebt(debt.id)}
-                  >
-                    ❌
-                  </button>
-                )}
-                {isAdmin && (
-                  <button
                     className="edit-button"
                     onClick={() => startEditing(debt.id, debt.name)}
                   >
                     ✏️ Редактировать
+                  </button>
+                )}
+                {isAdmin && (
+                  <button
+                    className="delete-button"
+                    onClick={() => handleDeleteDebt(debt.id)}
+                  >
+                    ❌ Удалить
                   </button>
                 )}
               </>

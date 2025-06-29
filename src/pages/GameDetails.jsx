@@ -120,10 +120,10 @@ const [editingNoteIndex, setEditingNoteIndex] = useState(-1);
 
   return (
     <div className="game-details-container">
-      <Link to="/games" className="back-link">← Назад к списку</Link>
 
       <div className="row-1">
         <h2>{game.name}</h2>
+        <Link to="/games" className="back-link">← Назад к списку</Link>
         {isAdmin && (
           <>
             <button onClick={() => setShowEditModal(true)} className="edit-button">Редактировать</button>
@@ -146,7 +146,7 @@ const [editingNoteIndex, setEditingNoteIndex] = useState(-1);
           <div className="game-stats">
             <p><strong>Оценка:</strong> {game.rating ? `${game.rating}/10` : "Не указана"}</p>
             <p><strong>Статус:</strong> {statusLabels[game.status]}</p>
-            <p><strong>Время прохождения:</strong> {game.hoursPlayed ? `${game.hoursPlayed} ч.` : "Не указано"}</p>
+            <p><strong>Проведено времени:</strong> {game.hoursPlayed ? `${game.hoursPlayed} ч.` : "Не указано"}</p>
             <p><strong>Дата последнего изменения:</strong> {new Date(game.lastUpdated).toLocaleDateString("ru-RU")}</p>
           </div>
         </div>
@@ -193,23 +193,27 @@ const [editingNoteIndex, setEditingNoteIndex] = useState(-1);
                     </div>
                     <ul className="notes-grid">
                       {block.notes && block.notes.length > 0 ? (
-                        block.notes.map((note, noteIndex) => (
-                          <li key={noteIndex} className="note-card">
-                            <h4>
-                              {note.title}
-                              {isAdmin && (
-                                <button
-                                  className="delete-note-button"
-                                  onClick={() => handleDeleteNote(blockIndex, noteIndex)}
-                                >
-                                  ❌ Удалить
-                                </button>
+                        <div className="notes-list-container">
+                          {block.notes.map((note, noteIndex) => (
+                            <li key={noteIndex} className="note-card">
+                              <h4>
+                                {note.title}
+                                {isAdmin && (
+                                  <button
+                                    className="delete-note-button"
+                                    onClick={() => handleDeleteNote(blockIndex, noteIndex)}
+                                  >
+                                    ❌ Удалить
+                                  </button>
+                                )}
+                              </h4>
+                              {note.rating !== null && (
+                                <p><strong>Рейтинг:</strong> {note.rating}/10</p>
                               )}
-                            </h4>
-                            {note.rating !== null && <p><strong>Рейтинг:</strong> {note.rating}/10</p>}
-                            <p>{note.content}</p>
-                          </li>
-                        ))
+                              <p>{note.content}</p>
+                            </li>
+                          ))}
+                        </div>
                       ) : (
                         <p>Нет заметок в этом блоке</p>
                       )}
@@ -257,7 +261,7 @@ const [editingNoteIndex, setEditingNoteIndex] = useState(-1);
               </select>
             </label>
             <label>
-              Время прохождения (ч):
+              Проведено времени (ч):
               <input
                 type="number"
                 min="0"
