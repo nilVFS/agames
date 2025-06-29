@@ -3,6 +3,10 @@
   max-width: 1440px;
 }
 
+.app-main {
+  min-height: calc(100vh - 120px);;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
