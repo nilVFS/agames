@@ -9,9 +9,11 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -39,7 +41,6 @@
   color: #888;
 }
 
-
 @media (max-width: 768px) {
   .search-results {
     max-height: 200px;
@@ -49,7 +50,5 @@
     width: 40px;
   }
 }
-
-
 
 

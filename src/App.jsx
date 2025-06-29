@@ -1,4 +1,3 @@
-import "./App.css"
 
 // App.jsx
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -10,6 +9,7 @@ import GameDetails from "./pages/GameDetails";
 import Home from "./pages/Home"
 import Login from './pages/Login'
 import Register from './pages/Register'
+import "./App.css"
 
 function App() {
   return (
@@ -31,3 +31,4 @@ function App() {
 }
 
 export default App;
+

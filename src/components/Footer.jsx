@@ -1,7 +1,8 @@
-export  default function Footer() {
+import './Footer.css'
+
+export default function Footer() {
   return (
     <footer className="app-footer">
-      <p>🤡</p>
     </footer>
   );
-} 
+}
