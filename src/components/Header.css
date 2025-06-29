@@ -1,125 +1,114 @@
-/* src/components/Header/Header.css */
-
+/* Основные стили для шапки */
 .app-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #ffffff;
-  padding: 1rem 2rem;
+  background-color: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 0.8rem 2rem;
   position: sticky;
   top: 0;
   z-index: 1000;
 }
 
-.header-left h1 {
-  margin: 0;
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #333;
-}
-
-.header-left h1 a {
-  text-decoration: none;
-  color: inherit;
-}
-
-.header-right {
+.header-left {
   display: flex;
   align-items: center;
-  gap: 1rem;
 }
 
-.logout-button,
-.login-link {
+.header-left img {
+  height: 32px;
+  width: auto;
+  margin-right: 10px;
+}
+
+/* Бургер-кнопка (меню) */
+.menu-toggle {
+  display: none; /* Скрыта по умолчанию на десктопе */
   background: none;
   border: none;
-  font-size: 1rem;
+  font-size: 1.5rem;
   cursor: pointer;
-  color: #333;
-  font-weight: bold;
-  text-decoration: none;
 }
 
-.logout-button:hover,
-.login-link:hover {
-  color: #0077ff;
-}
-
+/* Навигационное меню */
 .nav-menu {
-  flex-grow: 1;
   display: flex;
-  justify-content: center;
+  align-items: center;
 }
 
 .nav-links {
-  list-style: none;
   display: flex;
-  gap: 2rem;
+  list-style: none;
   margin: 0;
   padding: 0;
+  gap: 1.5rem;
 }
 
-.nav-links li a {
+.nav-links li a,
+.logout-button {
   text-decoration: none;
-  color: #333;
-  font-weight: bold;
+  font-weight: 500;
+  font-size: 1rem;
   transition: color 0.2s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
-.nav-links li a:hover {
+.nav-links li a:hover,
+.logout-button:hover {
   color: #0077ff;
 }
 
-.menu-toggle {
-  display: none;
+.nav-links li a:visited,
+.logout-button:hover {
+  color: #000;
 }
 
-/* Мобильные стили */
+
+.logout-button {
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+/* Адаптивность — скрываем меню и показываем бургер на маленьких экранах */
 @media (max-width: 768px) {
   .nav-menu {
     position: absolute;
     top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: white;
+    left: 0;
+    right: 0;
     flex-direction: column;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 999;
-    border-radius: 8px;
-    padding: 1rem 0;
+    align-items: flex-start;
+    padding: 1rem 2rem;
+    transform: translateY(-100%);
+    opacity: 0;
+    background-color: white;
+    text-align: center;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
   }
 
   .nav-menu.active {
-    max-height: 300px;
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
   }
 
   .nav-links {
     flex-direction: column;
     width: 100%;
-    padding: 0.5rem 0;
   }
 
   .nav-links li {
-    text-align: center;
-    padding: 0.5rem 0;
+    margin-bottom: 1rem;
   }
 
   .menu-toggle {
     display: block;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
   }
 }
 
-.app-header img {
-  height: 36px;
-  aspect-ratio: 1;
 
-}
 
