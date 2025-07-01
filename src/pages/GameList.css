@@ -25,10 +25,10 @@
   margin-bottom: 1rem;
 }
 
-/* === Стили для поиска === */
+/*  Стили для поиска  */
 .search-results {
   max-height: 300px; /* Максимальная высота модального списка */
-  overflow-y: auto;   /* Включаем вертикальную прокрутку */
+  overflow-y: auto; 
   margin-top: 1rem;
   border: 1px solid #ddd;
   border-radius: 6px;
@@ -130,15 +130,15 @@
 }
 
 .status-indicator.in-progress {
-  background-color: #ff9800; /* Оранжевый */
+  background-color: #ff9800;
 }
 
 .status-indicator.completed {
-  background-color: #4caf50; /* Зелёный */
+  background-color: #4caf50;
 }
 
 .status-indicator.dropped {
-  background-color: #f44336; /* Красный */
+  background-color: #f44336;
 }
 
 .delete-game-button {

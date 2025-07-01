@@ -1,7 +1,7 @@
 /* debts.css */
 .debt-container {
   padding: 2rem;
-  max-width: 800px;
+  max-width: 1440px;
   margin: auto;
 }
 
@@ -18,6 +18,9 @@
 .debt-list {
   list-style: none;
   padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
 }
 
 .debt-card {
@@ -30,7 +33,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s ease;
   font-weight: bold;
-  font-size: 200%;
+  font-size: 120%;
 }
 
 .debt-card:hover {
