@@ -51,16 +51,12 @@
   background: none;
   border: none;
   cursor: pointer;
+  color: #000;
 }
 
 .nav-links li a:hover,
 .logout-button:hover {
   color: #0077ff;
-}
-
-.nav-links li a:visited,
-.logout-button:hover {
-  color: #000;
 }
 
 .logout-button {
